@@ -1,50 +1,49 @@
-from functions import load_dataset
+from data_processing import load_dataset, candidate_full_names_column
+from constants import candidates_full_names
+from src.statistical_analysis import explore_dataset_quality
 
 # Loading dataset into a dataframe
 file_name = "elections_results_by_department.xlsx"
-df = load_dataset(file_name)
+df_by_dpt = load_dataset(file_name)
 
-# Adding columns with candidates names and political side
-# Mapping candidate surname to candidate full name
-candidates_full_names = {
-    "candidate_1_surname": "Nathalie Arthaud",
-    "candidate_2_surname": "Fabien Roussel",
-    "candidate_3_surname": "Emmanuel Macron",
-    "candidate_4_surname": "Jean Lassalle",
-    "candidate_5_surname": "Marine Le Pen",
-    "candidate_6_surname": "Éric Zemmour",
-    "candidate_7_surname": "Jean-Luc Mélenchon",
-    "candidate_8_surname": "Anne Hidalgo",
-    "candidate_9_surname": "Yannick Jadot",
-    "candidate_10_surname": "Valérie Pécresse",
-    "candidate_11_surname": "Philippe Poutou",
-    "candidate_12_surname": "Nicolas Dupont-Aignan"
-}
+
+# Calculating candidate scores on national level i.e. total number of votes / total number of valid votes
+print("Calculating candidate scores on national level (sorted by score)\n")
+
+candidate_scores = []
+
+for i in range(1, 13):
+    vote_col = f"candidate_{i}_votes"
+    full_name_key = f"candidate_{i}_full_name"
+
+    full_name = candidates_full_names.get(full_name_key, f"Candidate {i}")
+
+    total_votes = df_by_dpt[vote_col].sum()
+    total_voters = df_by_dpt["valid_votes"].sum()
+
+    score = round((total_votes / total_voters) * 100, 2)
+
+    candidate_scores.append((full_name, score))
+
+# Sort by descending score
+candidate_scores_sorted = sorted(candidate_scores, key=lambda x: x[1], reverse=True)
+
+# Print results
+for name, score in candidate_scores_sorted:
+    print(f"{name}: {score}%")
+
+#df_by_dpt.to_excel("test_file.xlsx")
+
 
 # Mapping candidate surname to political side
-candidates_political_sides = {
-    "candidate_1_surname": "Far-left",
-    "candidate_2_surname": "Far-left",
-    "candidate_3_surname": "Center",
-    "candidate_4_surname": "Other",
-    "candidate_5_surname": "Far-right",
-    "candidate_6_surname": "Far-right",
-    "candidate_7_surname": "Far-left",
-    "candidate_8_surname": "Left",
-    "candidate_9_surname": "Left",
-    "candidate_10_surname": "Right",
-    "candidate_11_surname": "Far-left",
-    "candidate_12_surname": "Right"
-}
 
-df["political_side"] = df["candidate_surname"].map(candidates_political_sides)
+
+#df["political_side"] = df["candidate_surname"].map(candidates_political_sides)
 
 
 # Calculate the national abstention, blank and null votes
-column_to_mean: ["abstention_pct_reg",
-                "blank_votes_pct_voters",
-                "invalid_votes_pct_voterst"
-]
+print("\nCalculate the national abstention, blank and null votes:")
 
-abstention = df["abstention_pct_reg"].mean().round(2)
-print(f"Abstention PCT: {abstention}%")
+for col, label in column_labels.items():
+    mean = df_by_dpt[col].mean().round(2)
+    print(f"{label}: {mean}%")
