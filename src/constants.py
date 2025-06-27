@@ -1,4 +1,6 @@
+# === CANDIDATE MAPPINGS ===
 
+# Map candidate IDs from dataset to full names
 candidates_full_names = {
     "candidate_1_full_name": "Nathalie Arthaud",
     "candidate_2_full_name": "Fabien Roussel",
@@ -14,33 +16,48 @@ candidates_full_names = {
     "candidate_12_full_name": "Nicolas Dupont-Aignan"
 }
 
+# Map candidate surnames to political side
 candidates_political_sides = {
-    "candidate_1_surname": "Far-left",
-    "candidate_2_surname": "Far-left",
-    "candidate_3_surname": "Center",
-    "candidate_4_surname": "Other",
-    "candidate_5_surname": "Far-right",
-    "candidate_6_surname": "Far-right",
-    "candidate_7_surname": "Far-left",
-    "candidate_8_surname": "Left",
-    "candidate_9_surname": "Left",
-    "candidate_10_surname": "Right",
-    "candidate_11_surname": "Far-left",
-    "candidate_12_surname": "Right"
+    "ARTHAUD": "Far-left",
+    "ROUSSEL": "Far-left",
+    "MACRON": "Center",
+    "LASSALLE": "Other",
+    "LE PEN": "Far-right",
+    "ZEMMOUR": "Far-right",
+    "MÉLENCHON": "Far-left",
+    "HIDALGO": "Left",
+    "JADOT": "Left",
+    "PÉCRESSE": "Right",
+    "POUTOU": "Far-left",
+    "DUPONT-AIGNAN": "Right"
 }
 
-column_to_mean = [
-    "abstention_pct_reg",
-    "blank_votes_pct_voters",
-    "invalid_votes_pct_voters"
+# === ANALYSIS CONFIGURATION ===
+# Define the columns to keep to build df by candidate
+base_cols = ['department_code',
+             'department_name',
+             'abstention_pct_reg',
+             'total_voters',
+             'blank_votes',
+             'invalid_votes']
+
+# Columns for candidates scores calculation
+column_candidate_scores = ["total_voters",
+                           "candidate_1_votes",
+                           "candidate_2_votes",
+                           "candidate_3_votes",
+                           "candidate_4_votes",
+                           "candidate_5_votes",
+                           "candidate_6_votes",
+                           "candidate_7_votes",
+                           "candidate_8_votes",
+                           "candidate_9_votes",
+                           "candidate_10_votes",
+                           "candidate_11_votes",
+                           "candidate_12_votes"
 ]
 
-column_labels = {
-    "abstention_pct_reg": "Abstention rate",
-    "blank_votes_pct_voters": "Blank votes",
-    "invalid_votes_pct_voters": "Invalid votes"
-}
-
+# Colour palette matching political side for visualisation
 political_side_colours = {
     "Far-left": "#DC143C",
     "Left": "#FF69B4",

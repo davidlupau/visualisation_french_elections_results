@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 
+# === LOADING AND SAVING FILES ===
 def load_dataset(file_name):
     """Load the dataset from the excel file
     Parameters:
@@ -26,7 +27,6 @@ def load_dataset(file_name):
         print(f"Error loading {file_name}: {e}")
         return None
 
-
 def save_analysis_to_excel(data, file_name):
     """Save analysis results to Excel file in analysis_output folder
     Parameters:
@@ -35,7 +35,7 @@ def save_analysis_to_excel(data, file_name):
     Returns:
         str: path to saved file, None if failed
     """
-    print(f"\nSaving analysis to {file_name}...\n")
+    print(f"Saving analysis to {file_name}...\n")
     try:
         # Get the project root (go up from src/)
         project_root = Path(__file__).parent.parent
@@ -62,7 +62,15 @@ def save_analysis_to_excel(data, file_name):
         print(f"Error saving {file_name}: {e}")
         return None
 
+# === ADDING COLUMNS ===
 def candidate_full_names_column(df):
+    """
+    Create a new column with the full name of the candidates
+    param:
+        Dataframe containing the candidates first and last name
+    return:
+        DataFrame with a new column with the full name of the candidates
+    """
     print("Creating new column with candidate full names... \n")
     for i in range(1, 13):
         first_name_col = f"candidate_{i}_first_name"
@@ -71,3 +79,53 @@ def candidate_full_names_column(df):
         df[full_name_col] = df[first_name_col] + " " + df[surname_col].str.title()
 
     print("Columns created. \n")
+    return df
+
+def candidate_political_side_column(df, mapping):
+    print("Creating new column with candidate political side... \n")
+    for i in range(1, 13):
+        surname_col = f"candidate_{i}_surname"
+        political_side_col = f"candidate_{i}_political_side"
+        df[political_side_col] = df[surname_col].map(mapping)
+
+    print("Columns created. \n")
+    return df
+
+# === CREATING AND MODIFYING DATAFRAMES ===
+def create_df_by_candidate(df, base_cols):
+    """
+    Create a new dataframe with candidate candidates. All candidate names in the same column.
+    param
+        df: original dataframe created after uploading dataset
+        base_cols: a list of columns from df that we want to keep
+    return:
+        dataframe with candidate names in a single
+    """
+    print("Creating new dataframe with consolidated candidate names... \n")
+    # Create empty list to store our long-format rows
+    long_data = []
+
+    # For each department (row in original data)
+    for idx, row in df.iterrows():
+        dept_info = {col: row[col] for col in base_cols}
+
+        # For each candidate (1 to 12)
+        for candidate_num in range(1, 13):
+            votes_col = f'candidate_{candidate_num}_votes'
+            votes_pct_col = f'candidate_{candidate_num}_votes_pct_voters'
+            name_col = f'candidate_{candidate_num}_full_name'
+            pol_side_col = f'candidate_{candidate_num}_political_side'
+
+            # Create one row per department-candidate combination
+            candidate_row = dept_info.copy()
+            candidate_row['candidate_name'] = row[name_col]
+            candidate_row['votes'] = row[votes_col]
+            candidate_row['votes_pct_voters'] = row[votes_pct_col]
+            candidate_row['political_side'] = row[pol_side_col]
+
+            long_data.append(candidate_row)
+
+    # Convert to DataFrame
+    df_long = pd.DataFrame(long_data)
+    print("New dataframe created. \n")
+    return df_long
