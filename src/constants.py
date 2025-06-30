@@ -59,10 +59,11 @@ column_candidate_scores = ["total_voters",
 
 # Colour palette matching political side for visualisation
 political_side_colours = {
+    "Far-right": "#000099",
+    "Center": "#ff9900",
     "Far-left": "#DC143C",
-    "Left": "#FF69B4",
-    "Center": "#FFD700",
     "Right": "#4169E1",
-    "Far-right": "#8B4513",
+    "Left": "#FF69B4",
     "Other": "#808080"
 }
+

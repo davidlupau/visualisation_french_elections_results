@@ -71,6 +71,9 @@ def national_abstention_null_invalid(df):
     print(f"Null votes: {round(null_pct, 2)}% of votes.\n")
     print(f"Invalid votes: {round(invalid_pct, 2)}% of votes.\n")
 
+    results = [['Abstention', abstention_pct], ['Null votes', null_pct], ['Invalid votes', invalid_pct]]
+    df = pd.DataFrame(results, columns=['type', 'pct'])
+    return df
 
 def scores_by_political_side(df):
     """Calculate political side scores using vote totals"""
@@ -87,7 +90,7 @@ def scores_by_political_side(df):
     # Sort by percentage, descending
     result = political_totals.sort_values('percentage', ascending=False)
 
-    print("Scores by political side:")
+    print("\nScores by political side:")
     for _, row in result.iterrows():
         print(f"{row['political_side']}: {row['percentage']}%")
 

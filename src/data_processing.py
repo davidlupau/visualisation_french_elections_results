@@ -129,3 +129,41 @@ def create_df_by_candidate(df, base_cols):
     df_long = pd.DataFrame(long_data)
     print("New dataframe created. \n")
     return df_long
+
+
+def add_department_type_column(df):
+    """
+    Adds a 'dpt_type' column to the DataFrame based on department codes.
+
+    Parameters:
+        df (pd.DataFrame): DataFrame with department data
+    Returns:
+        pd.DataFrame: DataFrame with added 'dpt_type' column
+    """
+
+    # Make a copy to avoid modifying the original
+    df = df.copy()
+
+    df['dpt_type'] = df['department_code'].apply(lambda code:
+                                                    'French living abroad' if code == 'ZZ' else
+                                                    'Corsica' if code in ['2A', '2B'] else
+                                                    'Overseas' if code in [971, 972, 973, 974, 976, 988,
+                                                                        987, 975, 986, 977] else
+                                                    'Metropolitan'
+                                                    )
+
+    return df
+
+def categorisation_dpt_size(df):
+    """
+    Create a new column with department size category i.e. smallest, small, large, largest.
+    parameter: df
+    return: df with new column with department size category
+    """
+    print("Creating new column with categorical department size... \n")
+    df["population_group"] = pd.qcut(
+        df["total_registered_voters"],
+        q=4,
+        labels=["Smallest", "Small", "Large", "Largest"]
+    )
+    return df
