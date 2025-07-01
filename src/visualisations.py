@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
+import plotly.express as px
 import seaborn as sns
+import json
+import requests
 
 def plot_bar_chart_cand_scores(df, columns, title, x_label, y_label, color=None, label_base="Label"):
     """
@@ -222,3 +225,105 @@ def violin_plot_by_dpt_size(df):
     plt.xlabel("Department Size (Population Quartiles)")
     plt.ylabel("Abstention Rate (%)")
     plt.show()
+
+def choropleth_abstention(df):
+    """
+    Create a choropleth plot showing abstention rate by department size for metropolitan France.
+    Parameter:
+        df with metropolitan department and abstention rates.
+    """
+    print("Creating choropleth abstention...")
+    # Load GeoJSON file from GitHub
+    url = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
+    geojson = requests.get(url).json()
+
+    fig = px.choropleth(
+        df,
+        geojson=geojson,
+        locations='department_code',
+        featureidkey='properties.code',
+        color='abstention_pct_reg',
+        color_continuous_scale='purples',
+        labels={'abstention_pct_reg': 'Abstention (%)', 'department_code': 'Department Code'},
+    )
+
+    fig.update_geos(
+        fitbounds="locations",
+        visible=False
+    )
+
+    fig.update_layout(
+        title_text='Abstention Rate per Department (France, 2022)',
+        margin={"r": 10, "t": 60, "l": 10, "b": 10},
+        height=700,
+        title_x=0.5,
+        title_y=0.95,
+        title_font=dict(size=20),
+        coloraxis_colorbar=dict(
+            title="Abstention (%)",
+            thickness=15,
+            len=0.75,
+            y=0.5,
+            yanchor='middle'
+        )
+    )
+
+    fig.show()
+
+
+def choropleth_political_sides(df, political_side_colours):
+    """
+    Create a choropleth plot showing winning political side by department for metropolitan France.
+
+    Parameters:
+        df: DataFrame with department_code, department_name, and winning_political_side columns
+        political_side_colours: Dictionary mapping political sides to hex colors
+    """
+    print("\n Creating political sides choropleth...")
+
+    # Load GeoJSON file from GitHub
+    url = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson"
+    geojson = requests.get(url).json()
+
+    fig = px.choropleth(
+        df,
+        geojson=geojson,
+        locations='department_code',
+        featureidkey='properties.code',
+        color='winning_political_side',
+        color_discrete_map=political_side_colours,
+        labels={
+            'winning_political_side': 'Political Side',
+            'department_code': 'Department Code'
+        },
+        hover_data=['department_name']
+    )
+
+    fig.update_geos(
+        fitbounds="locations",
+        visible=False
+    )
+
+    fig.update_traces(
+        marker_line_color='white',
+        marker_line_width=0.5
+    )
+
+    fig.update_layout(
+        title_text='Winning Political Side per Department (France, 2022)',
+        margin={"r": 10, "t": 60, "l": 10, "b": 10},
+        height=700,
+        title_x=0.5,
+        title_y=0.95,
+        title_font=dict(size=20),
+        legend=dict(
+            orientation="v",
+            yanchor="middle",
+            y=0.5,
+            xanchor="left",
+            x=1.02,
+            title="Political Side"
+        )
+    )
+
+    fig.show()

@@ -167,3 +167,52 @@ def categorisation_dpt_size(df):
         labels=["Smallest", "Small", "Large", "Largest"]
     )
     return df
+
+
+import pandas as pd
+import numpy as np
+
+import pandas as pd
+import numpy as np
+
+
+def determine_winning_political_side(df):
+    """
+    Determine the winning political side for each department based on highest vote count.
+    Parameters:
+        df: DataFrame with candidate vote data and political sides
+    Returns:
+        DataFrame with department_code, department_name, winning_political_side, and abstention_rate
+    """
+    print("Determining winning political sides...")
+
+    results = []
+
+    for _, row in df.iterrows():
+        # Get all candidate vote counts and their political sides
+        candidate_votes = []
+
+        for i in range(1, 13):  # candidates 1-12
+            votes = row[f'candidate_{i}_votes']
+            political_side = row[f'candidate_{i}_political_side']
+            candidate_votes.append((votes, political_side))
+
+        # Find the candidate with highest votes
+        max_votes, winning_side = max(candidate_votes, key=lambda x: x[0])
+
+        results.append({
+            'department_code': row['department_code'],
+            'department_name': row['department_name'],
+            'winning_political_side': winning_side,
+            'abstention_rate': row['abstention_pct_reg']
+        })
+
+    result_df = pd.DataFrame(results)
+
+    # Print summary
+    print(f"Political sides distribution:")
+    side_counts = result_df['winning_political_side'].value_counts()
+    for side, count in side_counts.items():
+        print(f"  {side}: {count} departments")
+
+    return result_df

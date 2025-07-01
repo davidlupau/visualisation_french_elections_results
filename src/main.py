@@ -1,7 +1,7 @@
 from data_processing import load_dataset, candidate_full_names_column, create_df_by_candidate, candidate_political_side_column, add_department_type_column, categorisation_dpt_size
 from statistical_analysis import explore_dataset_quality, national_abstention_null_invalid, calculate_national_candidate_scores, scores_by_political_side
 from constants import base_cols, candidates_political_sides, political_side_colours
-from visualisations import plot_individual_scores, plot_scores_pol_sides, abst_null_inva_pie_chart, scatterplot_by_dpt_type, violin_plot_by_dpt_size
+from visualisations import plot_individual_scores, plot_scores_pol_sides, abst_null_inva_pie_chart, scatterplot_by_dpt_type, violin_plot_by_dpt_size, choropleth_abstention
 
 def main():
     # === DATA LOADING AND PREPARATION ===
@@ -54,6 +54,12 @@ def main():
 
     # Create violin plot to visualise abstention rate by department size
     violin_plot_by_dpt_size(df_cat_dpt)
+
+    # Remove rows related to French citizen abroad and oversea departments
+    df_metropolitan_dpt = df_by_dpt_full_name.iloc[:96]
+
+    # Create a map of France to plot abstention by department
+    choropleth_abstention(df_metropolitan_dpt)
 
 if __name__ == "__main__":
     main()
