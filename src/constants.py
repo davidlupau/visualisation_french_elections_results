@@ -1,5 +1,4 @@
 # === CANDIDATE MAPPINGS ===
-
 # Map candidate IDs from dataset to full names
 candidates_full_names = {
     "candidate_1_full_name": "Nathalie Arthaud",

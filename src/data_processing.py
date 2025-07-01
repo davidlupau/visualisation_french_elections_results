@@ -3,9 +3,9 @@ from pathlib import Path
 
 # === LOADING AND SAVING FILES ===
 def load_dataset(file_name):
-    """Load the dataset from the excel file
+    """Load the dataset from the Excel file
     Parameters:
-         file_name (string): name of the excel file in /data folder
+         file_name (string): name of the Excel file in /data folder
     Returns:
         dataframe containing the election results
     """
@@ -167,14 +167,6 @@ def categorisation_dpt_size(df):
         labels=["Smallest", "Small", "Large", "Largest"]
     )
     return df
-
-
-import pandas as pd
-import numpy as np
-
-import pandas as pd
-import numpy as np
-
 
 def determine_winning_political_side(df):
     """

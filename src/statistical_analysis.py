@@ -32,7 +32,10 @@ def explore_dataset_quality(df):
 def calculate_national_candidate_scores(df):
     """
     Calculates national candidate scores as percentage of total votes.
-    Returns a sorted DataFrame with columns 'candidate' and 'score'.
+    Parameter:
+        df (pd.DataFrame): Dataframe containing all columns.
+    Returns:
+        DataFrame with columns 'candidate' and 'score'.
     """
     print("Calculating candidate scores on national level (sorted by score)...\n")
     scores = []
@@ -76,7 +79,13 @@ def national_abstention_null_invalid(df):
     return df
 
 def scores_by_political_side(df):
-    """Calculate political side scores using vote totals"""
+    """
+    Calculate political side scores using vote totals
+    Parameter:
+        df: Dataframe containing vote totals
+    return:
+        DataFrame containing political side scores.
+    """
 
     # Sum actual votes by political side
     political_totals = df.groupby('political_side')['votes'].sum().reset_index()

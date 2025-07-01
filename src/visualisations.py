@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
-import json
 import requests
 
 def plot_bar_chart_cand_scores(df, columns, title, x_label, y_label, color=None, label_base="Label"):
@@ -270,7 +269,6 @@ def choropleth_abstention(df):
 
     fig.show()
 
-
 def choropleth_political_sides(df, political_side_colours):
     """
     Create a choropleth plot showing winning political side by department for metropolitan France.
@@ -327,3 +325,43 @@ def choropleth_political_sides(df, political_side_colours):
     )
 
     fig.show()
+
+def box_strip_plot(df, colors):
+    """
+    Creat a box plot with strip chart showing abstention rate by winning side
+    Parameters:
+        df: dataframe with department_code, abstention rate, and winning_political_side columns
+        colors: Dictionary mapping political side to their color
+    """
+    plt.figure(figsize=(10, 6))
+
+    # Grey boxes
+    sns.boxplot(
+        x="winning_political_side",
+        y="abstention_rate",
+        data=df,
+        color='lightgrey',
+        boxprops=dict(facecolor='lightgrey', edgecolor='darkgrey'),
+        medianprops=dict(color='black'),
+        whiskerprops=dict(color='black'),
+        capprops=dict(color='black'),
+        flierprops=dict(marker='o', markerfacecolor='black', markersize=5, markeredgecolor='black')
+    )
+
+    # Political colored dots
+    sns.stripplot(
+        x="winning_political_side",
+        y="abstention_rate",
+        data=df,
+        palette=colors,
+        size=5,
+        alpha=0.8,
+        jitter=True
+    )
+
+    plt.title('Abstention Rate by Winning Political Side', fontsize=16, fontweight='bold', pad=25)
+    plt.xlabel('Winning Political Side', fontsize=13)
+    plt.ylabel('Abstention Rate (%)', fontsize=13)
+    plt.grid(axis='y', alpha=0.3, linestyle='--')
+    plt.tight_layout()
+    plt.show()

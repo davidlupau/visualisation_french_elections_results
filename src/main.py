@@ -1,13 +1,13 @@
-from data_processing import load_dataset, candidate_full_names_column, create_df_by_candidate, candidate_political_side_column, add_department_type_column, categorisation_dpt_size
+from data_processing import load_dataset, candidate_full_names_column, create_df_by_candidate, candidate_political_side_column, add_department_type_column, categorisation_dpt_size, determine_winning_political_side
 from statistical_analysis import explore_dataset_quality, national_abstention_null_invalid, calculate_national_candidate_scores, scores_by_political_side
 from constants import base_cols, candidates_political_sides, political_side_colours
-from visualisations import plot_individual_scores, plot_scores_pol_sides, abst_null_inva_pie_chart, scatterplot_by_dpt_type, violin_plot_by_dpt_size, choropleth_abstention
+from visualisations import plot_individual_scores, plot_scores_pol_sides, abst_null_inva_pie_chart, scatterplot_by_dpt_type, violin_plot_by_dpt_size, choropleth_abstention, choropleth_political_sides, box_strip_plot
 
 def main():
     # === DATA LOADING AND PREPARATION ===
-    print("=" * 50)
-    print("  FRENCH ELECTIONS 2022 - DATA ANALYSIS")
-    print("=" * 50)
+    print("=" * 40)
+    print("FRENCH ELECTIONS 2022 - DATA ANALYSIS")
+    print("=" * 40)
     # Load dataset into a dataframe
     print("\n=== PREPARING DATA ===")
     file_name = "elections_results_by_department.xlsx"
@@ -60,6 +60,19 @@ def main():
 
     # Create a map of France to plot abstention by department
     choropleth_abstention(df_metropolitan_dpt)
+
+    # Create a dataframe with wining political side and abstention rate by department
+    df_political_side = determine_winning_political_side(df_metropolitan_dpt)
+
+    # Create a map of France to plot wining political side by department
+    choropleth_political_sides(df_political_side, political_side_colours)
+
+    # Creating a box plot with strip chart to show abstention rate by wining side
+    box_strip_plot(df_political_side, political_side_colours)
+
+    print("=" * 30)
+    print("END OF ANALYSIS")
+    print("=" * 30)
 
 if __name__ == "__main__":
     main()

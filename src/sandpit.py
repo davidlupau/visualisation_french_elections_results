@@ -27,7 +27,6 @@ df_by_candidate = create_df_by_candidate(df_by_dpt, base_cols)
 df_metropolitan_dpt = df_by_dpt_full_name.iloc[:96]
 df_political_side = determine_winning_political_side(df_metropolitan_dpt)
 
-choropleth_political_sides(df_political_side, political_side_colours)
 
 
 
