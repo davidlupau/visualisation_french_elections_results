@@ -27,13 +27,9 @@ df_by_candidate = create_df_by_candidate(df_by_dpt, base_cols)
 df_metropolitan_dpt = df_by_dpt_full_name.iloc[:96]
 df_political_side = determine_winning_political_side(df_metropolitan_dpt)
 
-
-
-
-
-
-
-
+plt.figure(figsize=(10, 5))
+sns.histplot(data=df_by_dpt['abstention_pct_reg'], bins=7)
+plt.show()
 #### Plot map with color wining candidate + strip chart to compare wining side on x (3 lines) and abstention on y
 # Dropping row with votes from French citizens living abroad as it is not a department
 #df_light = df_by_dpt.drop(106, axis="index")
