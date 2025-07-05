@@ -6,7 +6,7 @@ from visualisations import plot_individual_scores, plot_scores_pol_sides, abst_n
 def main():
     # === DATA LOADING AND PREPARATION ===
     print("=" * 40)
-    print("FRENCH ELECTIONS 2022 - DATA ANALYSIS")
+    print("  FRENCH ELECTIONS 2022 - DATA ANALYSIS")
     print("=" * 40)
     # Load dataset into a dataframe
     print("\n=== PREPARING DATA ===")
@@ -70,9 +70,9 @@ def main():
     # Creating a box plot with strip chart to show abstention rate by wining side
     box_strip_plot(df_political_side, political_side_colours)
 
-    print("=" * 30)
+    print("=" * 16)
     print("END OF ANALYSIS")
-    print("=" * 30)
+    print("=" * 16)
 
 if __name__ == "__main__":
     main()

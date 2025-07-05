@@ -208,7 +208,7 @@ def scatterplot_by_dpt_type(df):
 def violin_plot_by_dpt_size(df):
     """
     Creates a violin plot showing voting statistics with politically neutral colors.
-    Parameter: df with column splitting departments into 4 categories according to their number of registered voters.
+    Parameter: df with column splitting departments into different categories according to their number of registered voters.
     """
     print("Creating violin plot to visualise abstention rate by department size...")
     sns.violinplot(
@@ -252,7 +252,7 @@ def choropleth_abstention(df):
     )
 
     fig.update_layout(
-        title_text='Abstention Rate per Department (France, 2022)',
+        title_text='Abstention Rate per Department (France Mainland, 2022)',
         margin={"r": 10, "t": 60, "l": 10, "b": 10},
         height=700,
         title_x=0.5,
@@ -308,7 +308,7 @@ def choropleth_political_sides(df, political_side_colours):
     )
 
     fig.update_layout(
-        title_text='Winning Political Side per Department (France, 2022)',
+        title_text='Winning Political Side per Department (France Mainland, 2022)',
         margin={"r": 10, "t": 60, "l": 10, "b": 10},
         height=700,
         title_x=0.5,
