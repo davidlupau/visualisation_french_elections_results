@@ -252,7 +252,7 @@ def choropleth_abstention(df):
     )
 
     fig.update_layout(
-        title_text='Abstention Rate per Department (France Mainland, 2022)',
+        title_text='Abstention Rate per Department (France Mainland)',
         margin={"r": 10, "t": 60, "l": 10, "b": 10},
         height=700,
         title_x=0.5,
@@ -308,7 +308,7 @@ def choropleth_political_sides(df, political_side_colours):
     )
 
     fig.update_layout(
-        title_text='Winning Political Side per Department (France Mainland, 2022)',
+        title_text='Winning Political Side per Department (France Mainland)',
         margin={"r": 10, "t": 60, "l": 10, "b": 10},
         height=700,
         title_x=0.5,
@@ -353,10 +353,12 @@ def box_strip_plot(df, colors):
         x="winning_political_side",
         y="abstention_rate",
         data=df,
+        hue="winning_political_side",
         palette=colors,
         size=5,
         alpha=0.8,
-        jitter=True
+        jitter=True,
+        legend=False
     )
 
     plt.title('Abstention Rate by Winning Political Side', fontsize=16, fontweight='bold', pad=25)
