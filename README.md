@@ -1,4 +1,4 @@
-# 🇫🇷 French Presidential Elections 2022: A Data Science Journey
+# 🇫🇷 2022 French Presidential Elections First Round Results Analysis
 
 *Uncovering voting patterns, political geography, and democratic engagement across France*
 
